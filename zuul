@@ -1,0 +1,36 @@
+springcloud zuul 路由配置规则: path+serviceId、path+url、zuul 正则制定路由规则
+path+serviceId eg:
+zuul:
+  routes:
+    myProduct: #自定义
+      path: /myProduct/**
+      serviceId: product
+      sensitiveHeaders:
+path+url（1） eg:
+zuul:
+  routes:
+    api-test:
+      path: /api-test/**
+      url: http://localhost:8001/test
+      
+调用地址：http://localhost:8888/api-test/d
+注：使用这种方式配置的路由不会作为HystrixCommand执行，同时也不能使用Ribbon来负责均衡多个URL
+
+path+url（2） eg:
+zuul:
+  routes:
+    test-route:
+      path: /api-test/**
+      service-id: api-service
+ribbon:
+  ReadTimeout: 60000
+  ConnectTimeout: 60000
+  eureka:
+    enabled: false  # 为Ribbon禁用Eureka
+api-service: # 这边是serviceId
+  ribbon:
+    listOfServers: http://localhost:8001/
+    
+调用地址：http://localhost:8888/api-test/test/d
+
+两种调用方式url地址稍有不同
