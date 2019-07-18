@@ -29,3 +29,21 @@ sudo kubectl exec -it switch-translate-dev-0 -- /bin/bash
 7、*.tar.Z 用tar –xZf 解压 
 8、*.rar 用 unrar e解压 
 9、*.zip 用 unzip 解压
+
+
+查日志
+或操作
+ grep -E '123|abc' filename  // 找出文件（filename）中包含123或者包含abc行
+ 
+ egrep '123|abc' filename    // 用egrep同样可以实现
+ 
+ awk '/123|abc/' filename   // awk 的实现方式
+ 与操作
+ grep pattern1 files | grep pattern2 ：显示既匹配 pattern1 又匹配 pattern2 的行。
+ 1.grep命令本身不提供AND功能。但是，使用 -E 选项可以实现AND操作
+ grep -E 'pattern1.*pattern2' filename
+
+grep -El 'pattern1.*pattern2' * (会把包含这两个条件的文件查询出来)
+
+grep -E 'pattern1.*pattern2|pattern2.*pattern1' filename
+
